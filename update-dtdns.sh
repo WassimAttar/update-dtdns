@@ -4,7 +4,9 @@ HOSTNAME="johndoe.dtdns.net"
 PASSWORD="azerty"
 
 CURRENTIP=`wget http://myip.dtdns.com -4 -q -O -`
-DNSIP=`dig +short $HOSTNAME`
+# works on synology and hosts who doesn't have dig
+DNSIP=`nslookup $HOSTNAME 8.8.8.8 | tail -2 | awk '{ print $2 }'`
+# DNSIP=`dig +short $HOSTNAME`
 
 if [ -n "$CURRENTIP" ] && [ -n "$DNSIP" ] ; then
 	if [ "$CURRENTIP" != "$DNSIP" ] ; then
